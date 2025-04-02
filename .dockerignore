@@ -1,0 +1,30 @@
+# Git-related files
+.git
+.gitignore
+
+# Documentation and miscellaneous
+README.md
+LICENSE
+*.md
+
+# Test and development files
+testdata/
+*_test.go
+
+# Build artifacts and local binaries
+bin/
+*.exe
+*.o
+*.so
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+
+# Dependency directories (not needed since go.mod handles this)
+vendor/
