@@ -18,12 +18,14 @@ type DatabaseConfig struct {
 	Password string
 	DBName   string
 	SSLMode  string
+	TimeZone string
 }
 
-func LoadDatabaseConfig() DatabaseConfig {
+func LoadDatabaseConfig() (DatabaseConfig,error) {
 	err := godotenv.Load()
 	if err != nil {	
-	  log.Fatal("Error loading .env file")
+	  log.Println("Error loading .env file")
+	  return DatabaseConfig{},err
 	}
   
 	return DatabaseConfig{
@@ -33,13 +35,17 @@ func LoadDatabaseConfig() DatabaseConfig {
 		Password: getEnv("DB_PASSWORD", "00000000"),
 		DBName:   getEnv("DB_NAME", "w_mesay"),
 		SSLMode:  getEnv("DB_SSLMODE", "disable"),
-	}
+		TimeZone: getEnv("DB_TIMEZONE", "UTC"),
+	},nil
 }
 
 func NewDatabase() (*gorm.DB, error) {
-	config := LoadDatabaseConfig()
+	config,err := LoadDatabaseConfig()
+	if err != nil{
+		return nil,err
+	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=Asia/Jakarta", config.Host, config.User, config.Password, config.DBName, config.Port, config.SSLMode)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s", config.Host, config.User, config.Password, config.DBName, config.Port, config.SSLMode, config.TimeZone)
 
 	gormConfig := &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),

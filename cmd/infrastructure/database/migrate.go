@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"gorm.io/gorm"
-
 )
 
 func Migrate(db *gorm.DB) error {
