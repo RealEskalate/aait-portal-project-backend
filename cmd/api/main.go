@@ -11,7 +11,7 @@ import (
 func main() {
 	_,err := database.NewDatabase()
 	if err != nil{
-		log.Fatalf("Failed to connect to database: %v", err)
+		log.Printf("Failed to connect to database: %s", err.Error())
 		return
 	}
 	// Basic route handler
