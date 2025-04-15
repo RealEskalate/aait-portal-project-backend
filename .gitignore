@@ -1,0 +1,43 @@
+# Binaries and builds
+/bin/
+/build/
+/dist/
+*.exe
+*.out
+*.test
+
+# Go modules (safe to ignore if vendoring)
+vendor/
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and debug
+*.log
+debug/
+
+# Env & config
+.env
+.env.local
+.env.*
+
+# Coverage and test files
+coverage.out
+
+# Dependency graph tools
+go.sum
+
+# Node (if you're mixing frontend too)
+node_modules/
+
+# Docker (optional)
+*.envrc
+.dockerignore
+Dockerfile
