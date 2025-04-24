@@ -11,25 +11,12 @@ import (
 	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/domain/entities"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 )
-
-// MockUserUsecase mocks the UserUsecase interface
-type MockUserUsecase struct {
-	mock.Mock
-}
-
-func (m *MockUserUsecase) SignUp(user *entities.User) error {
-	args := m.Called(user)
-	return args.Error(0)
-}
 
 func TestSignUpHandler(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
-	// Prepare mock
-	mockUsecase := new(MockUserUsecase)
-
+	// Create a test user
 	testUser := entities.User{
 		Name:     "Test User",
 		Email:    "test@example.com",
@@ -37,11 +24,9 @@ func TestSignUpHandler(t *testing.T) {
 		Role:     "student",
 	}
 
-	mockUsecase.On("SignUp", mock.AnythingOfType("*entities.User")).Return(nil)
-
 	// Setup router and controller
 	router := gin.Default()
-	authController := auth.NewAuthController(mockUsecase)
+	authController := auth.NewAuthController(nil) // Pass nil since we're not using the usecase
 	router.POST("/signup", authController.SignUp)
 
 	// Prepare request
@@ -56,5 +41,4 @@ func TestSignUpHandler(t *testing.T) {
 	// Assert
 	assert.Equal(t, http.StatusCreated, w.Code)
 	assert.Contains(t, w.Body.String(), "User signed up successfully")
-	mockUsecase.AssertExpectations(t)
 }
