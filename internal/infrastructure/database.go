@@ -54,8 +54,7 @@ func NewDatabase() (*gorm.DB, error) {
 	db, err := gorm.Open(postgres.Open(dsn), gormConfig)
 
 	if err != nil {
-		log.Fatalf("Error connecting to database: %v", err)
-		return nil, err
+		log.Printf("Error connecting to database: %v", err)
 	}
 
 	return db, nil
