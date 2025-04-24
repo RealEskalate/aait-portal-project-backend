@@ -5,7 +5,6 @@ import "gorm.io/gorm"
 type UserProfile struct {
 	gorm.Model
 
-	ID          uint   `json:"id"`
 	Location    string `json:"location"`
 	Email       string `json:"email"`
 	TechStack   string `json:"tech_stack"`
