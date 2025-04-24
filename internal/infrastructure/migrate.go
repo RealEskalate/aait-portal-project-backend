@@ -10,7 +10,6 @@ import (
 func Migrate(db *gorm.DB) error {
 	err := db.AutoMigrate(
 		&entities.User{},
-	// wait for the model to be created
 	)
 
 	if err != nil {
@@ -18,6 +17,6 @@ func Migrate(db *gorm.DB) error {
 		return err
 	}
 
-	log.Println("Database migrated successfully")
+	log.Println("✅ Database migrated successfully")
 	return nil
 }
