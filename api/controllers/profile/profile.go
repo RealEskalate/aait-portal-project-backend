@@ -69,7 +69,6 @@ func (p *ProfileController) UploadProfilePicture(ctx *gin.Context) {
 		return
 	}
 
-	// Get the file from the request
 	file, err := ctx.FormFile("profile_picture")
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -79,7 +78,6 @@ func (p *ProfileController) UploadProfilePicture(ctx *gin.Context) {
 		return
 	}
 
-	// Create uploads directory if it doesn't exist
 	if err := os.MkdirAll("uploads", 0755); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to create uploads directory",
@@ -88,11 +86,9 @@ func (p *ProfileController) UploadProfilePicture(ctx *gin.Context) {
 		return
 	}
 
-	// Generate a unique filename
 	filename := fmt.Sprintf("%s_%s", id, file.Filename)
 	path := "uploads/" + filename
 
-	// Save the file
 	if err := ctx.SaveUploadedFile(file, path); err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Failed to save file",
