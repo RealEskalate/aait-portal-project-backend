@@ -24,13 +24,13 @@ func main() {
 	}
 	ensureUploadDirExists()
 
-	r := gin.Default()
-	r.Static("/uploads", "./uploads")
-	router.SetupRoutes(r, db)
+	app := gin.Default()
+	app.Static("/uploads", "./uploads")
+	router.SetupRoutes(app, db)
 
 	port := ":8080"
 	log.Printf("Server running on http://localhost%s", port)
-	err = r.Run(port)
+	err = app.Run(port)
 	if err != nil {
 		log.Fatalf("Server failed: %s", err)
 	}
