@@ -31,9 +31,9 @@ func LoadDatabaseConfig() (DatabaseConfig, error) {
 	return DatabaseConfig{
 		Host:     getEnv("DB_HOST", "localhost"),
 		Port:     getEnv("DB_PORT", "5432"),
-		User:     getEnv("DB_USER", "postgres"),
-		Password: getEnv("DB_PASSWORD", ""),
-		DBName:   getEnv("DB_NAME", "w_mesay"),
+		User:     getEnv("DB_USER", "myuser"),
+		Password: getEnv("DB_PASSWORD", "mypassword"),
+		DBName:   getEnv("DB_NAME", "mydatabase"),
 		SSLMode:  getEnv("DB_SSLMODE", "disable"),
 		TimeZone: getEnv("DB_TIMEZONE", "UTC"),
 	}, nil

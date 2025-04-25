@@ -31,3 +31,19 @@ func (ctrl *AuthController) SignUp(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, gin.H{"message": "User signed up successfully"})
 }
+
+func (ctrl *AuthController) SignIn(ctx *gin.Context) {
+	var user entities.UserLoginPayload
+	if err := ctx.ShouldBindJSON(&user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	token, err := ctrl.UserUsecase.SignIn(&user)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"token": token})
+}
