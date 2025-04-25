@@ -12,7 +12,6 @@ RUN go build -o /main ./main.go
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /main /app/main
-COPY .env /app/.env  
 
 EXPOSE 8080
 ENV GIN_MODE=release

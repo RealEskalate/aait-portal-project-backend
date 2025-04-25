@@ -1,9 +1,13 @@
 package entities
 
-import "gorm.io/gorm"
-
+// UserProfile represents a user's profile information
+// @Description User profile information
 type UserProfile struct {
-	gorm.Model
+	// Standard gorm model fields
+	ID        uint   `json:"id" gorm:"primarykey"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
+	DeletedAt string `json:"deleted_at,omitempty" gorm:"index"`
 
 	Location    string `json:"location"`
 	Email       string `json:"email"`

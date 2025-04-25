@@ -21,14 +21,8 @@ type DatabaseConfig struct {
 	TimeZone string
 }
 
-func LoadDatabaseConfig() (DatabaseConfig, error) {
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("Error loading .env file")
-		return DatabaseConfig{}, err
-	}
-
-	return DatabaseConfig{
+func LoadDatabaseConfig() DatabaseConfig {
+	config := DatabaseConfig{
 		Host:     getEnv("DB_HOST", "localhost"),
 		Port:     getEnv("DB_PORT", "5432"),
 		User:     getEnv("DB_USER", "postgres"),
@@ -36,16 +30,29 @@ func LoadDatabaseConfig() (DatabaseConfig, error) {
 		DBName:   getEnv("DB_NAME", "w_mesay"),
 		SSLMode:  getEnv("DB_SSLMODE", "disable"),
 		TimeZone: getEnv("DB_TIMEZONE", "UTC"),
-	}, nil
+	}
+
+	return config
 }
 
 func NewDatabase() (*gorm.DB, error) {
-	config, err := LoadDatabaseConfig()
-	if err != nil {
-		return nil, err
+	// only load .env file in development mode
+	if getAppEnv() == "development" {
+		if err := godotenv.Load(); err != nil {
+			log.Println("No .env file found, continuing with system environment variables...")
+		}
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s", config.Host, config.User, config.Password, config.DBName, config.Port, config.SSLMode, config.TimeZone)
+	config := LoadDatabaseConfig()
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
+		config.Host,
+		config.User,
+		config.Password,
+		config.DBName,
+		config.Port,
+		config.SSLMode,
+		config.TimeZone)
 
 	gormConfig := &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
@@ -59,6 +66,14 @@ func NewDatabase() (*gorm.DB, error) {
 	}
 
 	return db, nil
+}
+
+func getAppEnv() string {
+	env := os.Getenv("APP_ENV")
+	if env == "" {
+		return "development"
+	}
+	return env
 }
 
 func getEnv(key, defaultValue string) string {

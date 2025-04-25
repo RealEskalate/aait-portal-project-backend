@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	_ "github.com/Elizabethyonas/A2SV-Portal-Project/cmd/docs" // Import for swagger docs
 	database "github.com/Elizabethyonas/A2SV-Portal-Project/cmd/infrastructure/database"
 	"github.com/Elizabethyonas/A2SV-Portal-Project/cmd/router"
 	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/infrastructure"

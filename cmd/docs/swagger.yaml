@@ -1,0 +1,179 @@
+definitions:
+  entities.User:
+    description: User account information
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+    type: object
+  entities.UserProfile:
+    description: User profile information
+    properties:
+      codeforces:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      github:
+        type: string
+      group:
+        type: string
+      hackerrank:
+        type: string
+      id:
+        description: Standard gorm model fields
+        type: integer
+      institution:
+        type: string
+      leetcode:
+        type: string
+      linkedin:
+        type: string
+      location:
+        type: string
+      tech_stack:
+        type: string
+      telegram:
+        type: string
+      updated_at:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user with the provided details.
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: User Signup
+      tags:
+      - Auth
+  /api/v1/profile:
+    get:
+      description: Fetches the profile of the currently authenticated user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.UserProfile'
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get Profile
+      tags:
+      - Profile
+    post:
+      consumes:
+      - application/json
+      description: Creates a new profile for the user with the provided details.
+      parameters:
+      - description: Profile details
+        in: body
+        name: profile
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserProfile'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Profile
+      tags:
+      - Profile
+    put:
+      consumes:
+      - application/json
+      description: Updates the profile of the user with the provided details.
+      parameters:
+      - description: Updated profile details
+        in: body
+        name: profile
+        required: true
+        schema:
+          $ref: '#/definitions/entities.UserProfile'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Update Profile
+      tags:
+      - Profile
+swagger: "2.0"
