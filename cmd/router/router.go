@@ -24,6 +24,7 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	authGroup := router.Group("/api/auth")
 	{
 		authGroup.POST("/signup", authController.SignUp)
+		authGroup.POST("/signin", authController.SignIn)
 	}
 
 	// Profile routes
