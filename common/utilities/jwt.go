@@ -2,9 +2,9 @@ package common
 
 import (
 	"errors"
-	"os"
 	"time"
 
+	"github.com/Elizabethyonas/A2SV-Portal-Project/common"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )
@@ -13,7 +13,7 @@ type CustomClaims struct {
 	jwt.RegisteredClaims
 }
 
-var SECRET_KEY = getEnv("SECRET_KEY", "default")
+var SECRET_KEY = common.GetEnv("SECRET_KEY", "default")
 
 func CreateToken(userId uuid.UUID, userRole string) (string, error) {
 	claims := CustomClaims{
@@ -53,12 +53,4 @@ func VerifyToken(tokenString string) (*jwt.Token, *CustomClaims, error) {
 	}
 
 	return token, claims, nil
-}
-
-func getEnv(key, defaultValue string) string {
-	value := os.Getenv(key)
-	if value == "" {
-		return defaultValue
-	}
-	return value
 }
