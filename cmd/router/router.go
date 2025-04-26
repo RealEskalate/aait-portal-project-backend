@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/Elizabethyonas/A2SV-Portal-Project/api/controllers/auth"
 	"github.com/Elizabethyonas/A2SV-Portal-Project/api/controllers/profile"
+	"github.com/Elizabethyonas/A2SV-Portal-Project/api/controllers/submission"
 	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/application/usecase"
 	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/infrastructure/repository"
 	"github.com/gin-gonic/gin"
@@ -33,5 +34,17 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 		apiGroup.GET("/", profileController.GetProfile)
 		apiGroup.POST("/", profileController.CreateProfile)
 		apiGroup.PUT("/", profileController.UpdateProfile)
+	}
+
+	// submission setup
+	submissionRepo := repository.NewSubmissionRepository(db)
+	submissionUsecase := usecase.NewSubmissionUsecase(submissionRepo)
+	submissionController := submission.NewSubmissionController(submissionUsecase)
+
+	// Submission routes
+	submissionGroup := router.Group("/api/submissions")
+	{
+		submissionGroup.GET("/total-solutions/:user_id", submissionController.GetTotalSolutions)
+		submissionGroup.GET("/total-time-spent/:user_id", submissionController.GetTotalTimeSpents)
 	}
 }

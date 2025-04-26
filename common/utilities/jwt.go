@@ -2,11 +2,11 @@ package common
 
 import (
 	"errors"
+	"strconv"
 	"time"
 
 	"github.com/Elizabethyonas/A2SV-Portal-Project/common"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/google/uuid"
 )
 
 type CustomClaims struct {
@@ -15,10 +15,10 @@ type CustomClaims struct {
 
 var SECRET_KEY = common.GetEnv("SECRET_KEY", "default")
 
-func CreateToken(userId uuid.UUID, userRole string) (string, error) {
+func CreateToken(userId int, userRole string) (string, error) {
 	claims := CustomClaims{
 		RegisteredClaims: jwt.RegisteredClaims{
-			Subject:   userId.String(),
+			Subject:   strconv.Itoa(userId),
 			Issuer:    "aait-portal",
 			Audience:  []string{userRole},
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(30 * 24 * time.Hour)),

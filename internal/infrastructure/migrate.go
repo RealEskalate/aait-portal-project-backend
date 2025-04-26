@@ -10,6 +10,11 @@ import (
 func Migrate(db *gorm.DB) error {
 	err := db.AutoMigrate(
 		&entities.User{},
+		&entities.Submission{},
+		&entities.Problem{},
+		&entities.Contest{},
+		&entities.SuperGroup{},
+		&entities.Track{},
 	)
 
 	if err != nil {

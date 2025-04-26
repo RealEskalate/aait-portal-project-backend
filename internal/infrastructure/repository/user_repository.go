@@ -2,7 +2,6 @@ package repository
 
 import (
 	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/domain/entities"
-	"github.com/google/uuid"
 
 	"gorm.io/gorm"
 )
@@ -16,7 +15,6 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 }
 
 func (r *UserRepository) Create(user *entities.User) error {
-	user.ID = uuid.New()
 	return r.DB.Create(user).Error
 }
 
