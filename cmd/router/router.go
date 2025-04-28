@@ -28,10 +28,14 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	}
 
 	// Profile routes
-	apiGroup := router.Group("/api/profile")
+	profileGroup := router.Group("/api/profile")
 	{
-		apiGroup.GET("/", profileController.GetProfile)
-		apiGroup.POST("/", profileController.CreateProfile)
-		apiGroup.PUT("/", profileController.UpdateProfile)
+		profileGroup.GET("/", profileController.GetProfile)
+		profileGroup.POST("/", profileController.CreateProfile)
+		profileGroup.PUT("/", profileController.UpdateProfile)
+		profileGroup.POST("/upload-picture", profileController.UploadProfilePicture)
+		profileGroup.DELETE("/delete-picture", profileController.DeleteProfilePicture)
+		profileGroup.POST("/set-status", profileController.SetOnlineStatus)
+		profileGroup.GET("/get-status", profileController.GetOnlineStatus)
 	}
 }

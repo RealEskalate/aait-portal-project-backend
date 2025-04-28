@@ -10,6 +10,7 @@ import (
 	"github.com/Elizabethyonas/A2SV-Portal-Project/api/controllers/auth"
 	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/domain/entities"
 	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSignUpHandler(t *testing.T) {
@@ -22,22 +23,17 @@ func TestSignUpHandler(t *testing.T) {
 		Role:     "student",
 	}
 
-	// Setup router and controller
 	router := gin.Default()
-	authController := auth.NewAuthController(nil) // Pass nil since we're not using mocks
+	authController := auth.NewAuthController(nil)
 	router.POST("/signup", authController.SignUp)
 
-	// Prepare request
 	body, _ := json.Marshal(testUser)
 	req, _ := http.NewRequest(http.MethodPost, "/signup", bytes.NewBuffer(body))
 	req.Header.Set("Content-Type", "application/json")
 
-	// Perform request
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 
-	// Assert
-	if w.Code != http.StatusCreated {
-		t.Errorf("Expected status code %d, got %d", http.StatusCreated, w.Code)
-	}
+	assert.Equal(t, http.StatusCreated, w.Code)
+	assert.Contains(t, w.Body.String(), "User signed up successfully")
 }
