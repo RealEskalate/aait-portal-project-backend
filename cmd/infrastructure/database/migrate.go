@@ -3,12 +3,13 @@ package infrastructure
 import (
 	"log"
 
+	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/domain/entities"
 	"gorm.io/gorm"
 )
 
 func Migrate(db *gorm.DB) error {
 	err := db.AutoMigrate(
-		// wait for the model to be created
+		&entities.User{},
 	)
 
 	if err != nil {
