@@ -29,10 +29,17 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 	contestUsecase := usecase.NewContestUsecase(contestRepo)
 	contestController := contest.NewContestController(contestUsecase)
 
+	// Auth routes
 	authGroup := router.Group("/api/auth")
 	{
 		authGroup.POST("/signup", authController.SignUp)
 		authGroup.POST("/signin", authController.SignIn)
+	}
+
+	// User routes
+	userGroup := router.Group("/api/users")
+	{
+		userGroup.GET("/", authController.GetAllUsers)
 	}
 
 	profileGroup := router.Group("/api/profile")
@@ -59,7 +66,7 @@ func SetupRoutes(router *gin.Engine, db *gorm.DB) {
 
 	contestGroup := router.Group("/api/contests")
 	{
-		contestGroup.POST("/", contestController.CreateContest)
 		contestGroup.GET("/", contestController.GetAllContests)
+		contestGroup.POST("/", contestController.CreateContest)
 	}
 }
