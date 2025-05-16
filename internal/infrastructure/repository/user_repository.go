@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"log"
+
 	"github.com/Elizabethyonas/A2SV-Portal-Project/internal/domain/entities"
 	"github.com/google/uuid"
 
@@ -27,4 +29,14 @@ func (r *UserRepository) FindByEmail(email string) (*entities.User, error) {
 		return nil, err
 	}
 	return &user, nil
+}
+
+func (repo *UserRepository) GetAllUsers() ([]entities.User, error) {
+	var users []entities.User
+	err := repo.DB.Find(&users).Error
+	if err != nil {
+		log.Printf("Database error while fetching users: %v", err)
+		return nil, err
+	}
+	return users, nil
 }
