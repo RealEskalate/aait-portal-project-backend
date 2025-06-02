@@ -47,3 +47,12 @@ func (ctrl *AuthController) SignIn(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }
+
+func (ctrl *AuthController) GetAllUsers(ctx *gin.Context) {
+	users, err := ctrl.UserUsecase.GetAllUsers()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch users"})
+		return
+	}
+	ctx.JSON(http.StatusOK, users)
+}
